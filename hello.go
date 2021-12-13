@@ -47,10 +47,15 @@ func main() {
 
 	log.Printf("Authorized on account %s", bot.Self.UserName)
 
-	u := tgbotapi.NewUpdate(0)
-	u.Timeout = 60
+	// u := tgbotapi.NewUpdate(0)
+	// u.Timeout = 60
+	// wh, err := tgbotapi.NewWebhook("https://studibot.herokuapp.com/" + bot.Token)
+	// _, err = bot.SetWebhook(wh)
+	if err != nil {
+		log.Fatal(err)
+	}
 
-	updates := bot.ListenForWebhook("/" + bot.Token)
+	updates := bot.ListenForWebhook("https://studibot.herokuapp.com/" + bot.Token)
 
 	for update := range updates {
 
