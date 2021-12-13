@@ -13,15 +13,6 @@ import (
 
 func main() {
 
-	port := os.Getenv("PORT")
-
-	// if len(port) == 0 {
-	// 	port = "8080"
-	// }
-	// if err := http.ListenAndServe(":"+port, nil); err != nil {
-	// 	log.Fatal(err)
-	// }
-
 	err := godotenv.Load()
 	var telegramkey string
 
