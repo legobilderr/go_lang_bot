@@ -1,19 +1,24 @@
 package greetings
 
 import (
-	"errors"
-	"fmt"
+	"math/rand"
+	"time"
 )
 
-// Hello returns a greeting for the named person.
-func Hello(name string) (string, error) {
-
-	// If no name was given, return an error with a message.
-	if name == "" {
-		return "", errors.New("empty name")
+func RandomFormat() string {
+	// A slice of message formats.
+	formats := []string{
+		"Hi, %s. Welcome!",
+		"Great to see you, %s!",
+		"Hail, %s! Well met!",
 	}
+	rand.Seed(time.Now().UnixNano())
 
-	// Return a greeting that embeds the name in a message.
-	message := fmt.Sprintf("Hi, %v. Welcome!", name)
-	return message, nil
+	// Return a randomly selected message format by specifying
+	// a random index for the slice of formats.
+	return formats[rand.Intn(len(formats))]
+}
+
+func test() {
+
 }
