@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"os"
 
 	"test/greetings"
 
@@ -12,12 +13,23 @@ import (
 
 func main() {
 	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file")
-	}
-	myEnv, err := godotenv.Read()
+	var telegramkey string
 
-	bot, err := tgbotapi.NewBotAPI(myEnv["TELEAGRAMBOT_KEY"])
+	if err != nil {
+
+		telegramkey = os.Getenv("TELEAGRAMBOT_KEY")
+
+	} else {
+
+		myEnv, err := godotenv.Read()
+		if err != nil {
+			log.Panic(err)
+		}
+		telegramkey = myEnv["TELEAGRAMBOT_KEY"]
+
+	}
+
+	bot, err := tgbotapi.NewBotAPI(telegramkey)
 	if err != nil {
 		log.Panic(err)
 	}
@@ -52,7 +64,7 @@ func main() {
 				break
 
 			default:
-				reply := "ДОБРОЕ УТРО ГЕЁЧКИ2!"
+				reply := "ДОБРОЕ УТРО ГЕЁЧКИ!"
 				msg := tgbotapi.NewMessage(update.Message.Chat.ID, reply)
 
 				bot.Send(msg)
