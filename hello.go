@@ -46,7 +46,7 @@ func main() {
 	bot.Debug = true
 
 	log.Printf("Authorized on account %s", bot.Self.UserName)
-	wh, err := tgbotapi.NewWebhook("https://studibot.herokuapp.com:" + os.Getenv("PORT") + ":8443" + "/" + bot.Token)
+	wh, err := tgbotapi.NewWebhook("https://studibot.herokuapp.com:8443/" + bot.Token)
 
 	// u := tgbotapi.NewUpdate(0)
 	// u.Timeout = 60
@@ -73,7 +73,7 @@ func main() {
 
 	updates := bot.ListenForWebhook("/" + bot.Token)
 	// go http.ListenAndServeTLS("0.0.0.0:8443", "cert.pem", "key.pem", nil)
-	go http.ListenAndServe("0.0.0.0:8443"+os.Getenv("PORT"), nil)
+	go http.ListenAndServe("0.0.0.0:8443", nil)
 
 	for update := range updates {
 
