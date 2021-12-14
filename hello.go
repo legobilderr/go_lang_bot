@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"log"
+	"net/http"
+	"os"
 	"test/greetings"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
@@ -16,15 +18,15 @@ func main() {
 
 	if err != nil {
 
-		// telegramkey = os.Getenv("TELEAGRAMBOT_KEY")
-		// port := os.Getenv("PORT")
+		telegramkey = os.Getenv("TELEAGRAMBOT_KEY")
+		port := os.Getenv("PORT")
 
-		// if len(port) == 0 {
-		// 	port = "8080"
-		// }
-		// if err := http.ListenAndServe(":"+port, nil); err != nil {
-		// 	log.Fatal(err)
-		// }
+		if len(port) == 0 {
+			port = "8080"
+		}
+		if err := http.ListenAndServe(":"+port, nil); err != nil {
+			log.Fatal(err)
+		}
 
 	} else {
 
@@ -44,24 +46,25 @@ func main() {
 	bot.Debug = true
 
 	log.Printf("Authorized on account %s", bot.Self.UserName)
-	wh, err := tgbotapi.NewWebhook("https://studibot.herokuapp.com:80/" + bot.Token)
-	_, err = bot.Request(wh)
 
-	if err != nil {
-		panic(err)
-	}
+	// wh, err := tgbotapi.NewWebhook("https://studibot.herokuapp.com/" + bot.Token)
+	// _, err = bot.Request(wh)
 
-	info, err := bot.GetWebhookInfo()
+	// if err != nil {
+	// 	panic(err)
+	// }
 
-	if err != nil {
-		panic(err)
-	}
+	// info, err := bot.GetWebhookInfo()
 
-	if info.LastErrorDate != 0 {
-		log.Printf("failed to set webhook: %s", info.LastErrorMessage)
-	}
+	// if err != nil {
+	// 	panic(err)
+	// }
 
-	updates := bot.ListenForWebhook("/:80" + bot.Token)
+	// if info.LastErrorDate != 0 {
+	// 	log.Printf("failed to set webhook: %s", info.LastErrorMessage)
+	// }
+
+	updates := bot.ListenForWebhook("/" + bot.Token)
 
 	for update := range updates {
 
