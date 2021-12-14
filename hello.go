@@ -11,6 +11,10 @@ import (
 	godotenv "github.com/joho/godotenv"
 )
 
+func MainHandler(resp http.ResponseWriter, _ *http.Request) {
+	resp.Write([]byte("Hi there! I'm DndSpellsBot!"))
+}
+
 func main() {
 
 	err := godotenv.Load()
@@ -20,13 +24,15 @@ func main() {
 
 		telegramkey = os.Getenv("TELEAGRAMBOT_KEY")
 		port := os.Getenv("PORT")
+		http.HandleFunc("/", MainHandler)
+		go http.ListenAndServe(":"+port, nil)
 
-		if len(port) == 0 {
-			port = "8080"
-		}
-		if err := http.ListenAndServe(":"+port, nil); err != nil {
-			log.Fatal(err)
-		}
+		// if len(port) == 0 {
+		// 	port = "8080"
+		// }
+		// if err := http.ListenAndServe(":"+port, nil); err != nil {
+		// 	log.Fatal(err)
+		// }
 
 	} else {
 
