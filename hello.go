@@ -3,8 +3,6 @@ package main
 import (
 	"fmt"
 	"log"
-	"net/http"
-	"os"
 	"test/greetings"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
@@ -18,15 +16,15 @@ func main() {
 
 	if err != nil {
 
-		telegramkey = os.Getenv("TELEAGRAMBOT_KEY")
-		port := os.Getenv("PORT")
+		// telegramkey = os.Getenv("TELEAGRAMBOT_KEY")
+		// port := os.Getenv("PORT")
 
-		if len(port) == 0 {
-			port = "8080"
-		}
-		if err := http.ListenAndServe(":"+port, nil); err != nil {
-			log.Fatal(err)
-		}
+		// if len(port) == 0 {
+		// 	port = "8080"
+		// }
+		// if err := http.ListenAndServe(":"+port, nil); err != nil {
+		// 	log.Fatal(err)
+		// }
 
 	} else {
 
