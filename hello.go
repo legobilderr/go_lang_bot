@@ -24,7 +24,7 @@ func main() {
 		if len(port) == 0 {
 			port = "8080"
 		}
-		if err := http.ListenAndServe(":80", nil); err != nil {
+		if err := http.ListenAndServe(":"+port, nil); err != nil {
 			log.Fatal(err)
 		}
 
@@ -46,7 +46,7 @@ func main() {
 	bot.Debug = true
 
 	log.Printf("Authorized on account %s", bot.Self.UserName)
-	wh, err := tgbotapi.NewWebhook("https://studibot.herokuapp.com:80")
+	wh, err := tgbotapi.NewWebhook("https://studibot.herokuapp.com/" + bot.Token)
 
 	// u := tgbotapi.NewUpdate(0)
 	// u.Timeout = 60
@@ -71,7 +71,7 @@ func main() {
 		log.Printf("failed to set webhook: %s", info.LastErrorMessage)
 	}
 
-	updates := bot.ListenForWebhook("/")
+	updates := bot.ListenForWebhook("/" + bot.Token)
 	// go http.ListenAndServeTLS("0.0.0.0:8443", "cert.pem", "key.pem", nil)
 
 	for update := range updates {
