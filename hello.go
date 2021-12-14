@@ -46,7 +46,7 @@ func main() {
 	bot.Debug = true
 
 	log.Printf("Authorized on account %s", bot.Self.UserName)
-	wh, err := tgbotapi.NewWebhook("https://studibot.herokuapp.com")
+	wh, err := tgbotapi.NewWebhook("https://studibot.herokuapp.com:80")
 
 	// u := tgbotapi.NewUpdate(0)
 	// u.Timeout = 60
