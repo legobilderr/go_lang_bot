@@ -24,7 +24,7 @@ func main() {
 		if len(port) == 0 {
 			port = "8080"
 		}
-		if err := http.ListenAndServe(":"+port, nil); err != nil {
+		if err := http.ListenAndServe(":80", nil); err != nil {
 			log.Fatal(err)
 		}
 
