@@ -77,17 +77,15 @@ func main() {
 					log.Panic(err)
 				}
 
+				bot.Send(nice(update.Message.Chat.ID, fmt.Sprintf(pussdeep.Random_deep_pusse(), user_name)))
 				url := "https://api.telegram.org/bot" + telegramkey + "/sendAnimation?chat_id=" + strconv.FormatInt(update.Message.Chat.ID, 10) + "&animation=" + link
 				resp, err := http.Get(url)
 				if err != nil {
 					fmt.Println(err)
 					return
 				}
-				log.Printf(url)
 
 				defer resp.Body.Close()
-				// bot.Send(nice(update.Message.Chat.ID, link))
-				// bot.Send(nice(update.Message.Chat.ID, fmt.Sprintf(pussdeep.Random_deep_pusse(), user_name)))
 
 			default:
 				reply := "Я НЕ ПОНИМАЮ ЧТО ПРОИСХОДИТ !"
