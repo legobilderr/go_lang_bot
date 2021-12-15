@@ -70,8 +70,13 @@ func main() {
 				break
 
 			case "puss_deep":
-
-				bot.Send(nice(update.Message.Chat.ID, fmt.Sprintf(pussdeep.Random_deep_pusse(), user_name)))
+				var link string
+				link, err := pussdeep.Serch_gif()
+				if err != nil {
+					log.Panic(err)
+				}
+				bot.Send(nice(update.Message.Chat.ID, link))
+				// bot.Send(nice(update.Message.Chat.ID, fmt.Sprintf(pussdeep.Random_deep_pusse(), user_name)))
 
 			default:
 				reply := "Я НЕ ПОНИМАЮ ЧТО ПРОИСХОДИТ !"
