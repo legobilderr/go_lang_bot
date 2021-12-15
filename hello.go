@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 	"test/greetings"
+	"test/pussdeep"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 	godotenv "github.com/joho/godotenv"
@@ -27,13 +28,6 @@ func main() {
 		http.HandleFunc("/", MainHandler)
 		go http.ListenAndServe(":"+port, nil)
 
-		// if len(port) == 0 {
-		// 	port = "8080"
-		// }
-		// if err := http.ListenAndServe(":"+port, nil); err != nil {
-		// 	log.Fatal(err)
-		// }
-
 	} else {
 
 		myEnv, err := godotenv.Read()
@@ -52,23 +46,6 @@ func main() {
 	bot.Debug = true
 
 	log.Printf("Authorized on account %s", bot.Self.UserName)
-
-	// wh, err := tgbotapi.NewWebhook("https://studibot.herokuapp.com/" + bot.Token)
-	// _, err = bot.Request(wh)
-
-	// if err != nil {
-	// 	panic(err)
-	// }
-
-	// info, err := bot.GetWebhookInfo()
-
-	// if err != nil {
-	// 	panic(err)
-	// }
-
-	// if info.LastErrorDate != 0 {
-	// 	log.Printf("failed to set webhook: %s", info.LastErrorMessage)
-	// }
 
 	updates := bot.ListenForWebhook("/" + bot.Token)
 
@@ -92,8 +69,12 @@ func main() {
 				bot.Send(nice(update.Message.Chat.ID, reply))
 				break
 
+			case "puss_deep":
+
+				bot.Send(nice(update.Message.Chat.ID, fmt.Sprintf(pussdeep.Random_deep_pusse(), user_name)))
+
 			default:
-				reply := "ДОБРОЕ УТРО ГЕЁЧКИ!"
+				reply := "Я НЕ ПОНИМАЮ ЧТО ПРОИСХОДИТ !"
 				msg := tgbotapi.NewMessage(update.Message.Chat.ID, reply)
 
 				bot.Send(msg)
