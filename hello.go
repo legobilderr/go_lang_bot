@@ -75,7 +75,9 @@ func main() {
 				if err != nil {
 					log.Panic(err)
 				}
-				bot.Send(nice(update.Message.Chat.ID, link))
+				url := "https://api.telegram.org/bot" + telegramkey + "/sendAnimation?chat_id=" + string(rune(update.Message.Chat.ID)) + "&animation=" + link
+				http.Get(url)
+				// bot.Send(nice(update.Message.Chat.ID, link))
 				// bot.Send(nice(update.Message.Chat.ID, fmt.Sprintf(pussdeep.Random_deep_pusse(), user_name)))
 
 			default:
