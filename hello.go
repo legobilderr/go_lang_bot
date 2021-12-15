@@ -76,12 +76,13 @@ func main() {
 					log.Panic(err)
 				}
 
-				url := "https://api.telegram.org/bot" + telegramkey + "/sendAnimation?chat_id=" + string(rune(update.Message.Chat.ID)) + "&animation=" + link
+				url := "https://api.telegram.org/bot" + telegramkey + "/sendAnimation?chat_id=" + string(update.Message.Chat.ID) + "&animation=" + link
 				resp, err := http.Get(url)
 				if err != nil {
 					fmt.Println(err)
 					return
 				}
+				log.Printf(url)
 
 				defer resp.Body.Close()
 				// bot.Send(nice(update.Message.Chat.ID, link))
