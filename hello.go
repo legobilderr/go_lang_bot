@@ -32,7 +32,7 @@ func main() {
 	log.Printf("Authorized on account %s", bot.Self.UserName)
 
 	updates := bot.ListenForWebhook("/" + bot.Token)
-	komandSwither(updates, bot)
+	komandSwither(updates, bot, telegramkey)
 
 }
 
@@ -59,7 +59,7 @@ func env_load() string {
 	return telegramkey
 }
 
-func komandSwither(updates tgbotapi.UpdatesChannel, bot *tgbotapi.BotAPI) {
+func komandSwither(updates tgbotapi.UpdatesChannel, bot *tgbotapi.BotAPI, telegramkey string) {
 	for update := range updates {
 
 		user_name := update.Message.From.UserName
