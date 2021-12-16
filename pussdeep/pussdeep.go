@@ -10,8 +10,28 @@ import (
 	"test/model"
 	"time"
 
+	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 	"github.com/joho/godotenv"
 )
+
+func NewPuss(bot *tgbotapi.BotAPI, ChatId int64, usernane string, telegramkey string) {
+
+	var pussiAnswer []string
+
+	pussiAnswer = Random_deep_pusse()
+
+	bot.Send(Nice(ChatId, fmt.Sprintf(pussiAnswer[0], usernane)))
+
+	link, err := Serch_gif(pussiAnswer[1])
+	if err != nil {
+		log.Panic(err)
+	}
+	SendRequestTGapi(telegramkey, ChatId, link)
+}
+
+func Nice(id int64, message string) tgbotapi.MessageConfig {
+	return tgbotapi.NewMessage(id, message)
+}
 
 func Random_deep_pusse() []string {
 
