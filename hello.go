@@ -16,12 +16,6 @@ func MainHandler(resp http.ResponseWriter, _ *http.Request) {
 	resp.Write([]byte("Hi there! I'm DndSpellsBot!"))
 }
 
-type app struct {
-	main(),
-	env_load(),
-	komandSwitcher()
-}
-
 func main() {
 	var telegramkey string = env_load()
 
