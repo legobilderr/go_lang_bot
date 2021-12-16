@@ -9,6 +9,7 @@ import (
 func (a *App) runTelegramPipeline() {
 	a.bot.Debug = true
 	updates := a.bot.ListenForWebhook("/" + a.bot.Token)
+	a.logger.Info("started telegram pipeline")
 
 	for update := range updates {
 		if update.Message != nil {
@@ -45,6 +46,8 @@ func (a *App) runTelegramPipeline() {
 			a.logger.Info("message is empty", zap.String("user", update.Message.From.UserName))
 		}
 	}
+
+	a.logger.Info("finished telegram pipeline")
 
 	//
 	// for {
