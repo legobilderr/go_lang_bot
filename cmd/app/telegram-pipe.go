@@ -1,6 +1,8 @@
 package app
 
 import (
+	"fmt"
+
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 	"go.uber.org/zap"
 	"test/internal/telegram"
@@ -16,6 +18,7 @@ func (a *App) runTelegramPipeline() {
 			a.logger.Info("Finished telegram pipeline")
 			return
 		case update := <-updates:
+			fmt.Println(update.Message.Text)
 			switch update.Message.Command() {
 			case "good_mornig_radnyli":
 				_, err := a.bot.Send(telegram.Nice(update.Message.Chat.ID, telegram.RandomGreetings(update.Message.From.UserName)))
@@ -45,4 +48,5 @@ func (a *App) runTelegramPipeline() {
 			}
 		}
 	}
+
 }
