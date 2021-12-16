@@ -9,7 +9,7 @@ import (
 )
 
 type Config struct {
-	TelegramApiKey string `envconfig:"TELEAGRAMBOT_KEY" default:""`
+	TelegramApiKey string `envconfig:"TELEAGRAMBOT_KEY" default:"type here default value"`
 	Port           string `envconfig:"PORT" default:"5000"`
 }
 

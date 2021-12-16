@@ -13,16 +13,28 @@ import (
 	zapLogger "test/internal/pkg/logger"
 )
 
+// App - основная структура (модель данных) приложения
 type App struct {
-	ctx    context.Context
+	ctx context.Context
+
+	// config - Конфиг приложения с env переменными
 	config *config.Config
+
+	// log - Логгер
 	logger *zap.Logger
-	lock   *sync.RWMutex
-	wg     *sync.WaitGroup
-	mux    *http.ServeMux
-	bot    *tgbotapi.BotAPI
+
+	// lock & mutex примитивы синхронизации в мультипоточных приложениях
+	lock *sync.RWMutex
+	wg   *sync.WaitGroup
+
+	// mux -  http Router
+	mux *http.ServeMux
+
+	// bot - API для работы с Telegram
+	bot *tgbotapi.BotAPI
 }
 
+// NewApp - конструктор основной структуры
 func NewApp(ctx context.Context, config *config.Config) (a *App, err error) {
 	a = &App{
 		ctx:    ctx,
@@ -33,16 +45,16 @@ func NewApp(ctx context.Context, config *config.Config) (a *App, err error) {
 		mux:    http.NewServeMux(),
 	}
 
-	a.muxInit()
-
 	if a.bot, err = tgbotapi.NewBotAPI(config.TelegramApiKey); err != nil {
 		a.logger.Error("couldn't connect to bot api", zap.Error(err))
 		return nil, err
 	}
 
+	a.muxInit()
 	return
 }
 
+// Run - запускает приложение
 func (a *App) Run(ctx context.Context) error {
 	a.wg.Add(1)
 
@@ -54,6 +66,7 @@ func (a *App) Run(ctx context.Context) error {
 	return http.ListenAndServe(fmt.Sprintf(":%s", a.config.Port), a.mux)
 }
 
+// muxInit - инициализирует роутинг при http запросах
 func (a *App) muxInit() {
 	a.mux.HandleFunc("/", func(writer http.ResponseWriter, request *http.Request) {
 		_, err := writer.Write([]byte("works"))
