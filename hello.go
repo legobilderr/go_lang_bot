@@ -60,7 +60,7 @@ func komandSwither(updates tgbotapi.UpdatesChannel, bot *tgbotapi.BotAPI, telegr
 	if err == nil {
 		fmt.Println(message.IsSet(), message.URL)
 	}
-	telegramkey = myEnv["TELEAGRAMBOT_KEY"]
+
 	for update := range updates {
 
 		user_name := update.Message.From.UserName
