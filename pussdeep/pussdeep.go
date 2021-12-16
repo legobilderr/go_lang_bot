@@ -13,13 +13,13 @@ import (
 	"github.com/joho/godotenv"
 )
 
-func Random_deep_pusse() string {
+func Random_deep_pusse() []string {
 
-	deep := []string{
-		"2 см %s ублажает пусей муравья ",
-		"10 см %s ну чтож один раз не педафил , снимай трусишки",
-		"19 см парни в %s можно с разгона влетать ",
-		"1 метр если пойдет дождь будем прятаться в %s",
+	deep := [][]string{
+		{"2 см %s ублажает пусей муравья ", "tiny "},
+		{"10 см %s ну чтож один раз не педафил , снимай трусишки", "take your pants of"},
+		{"19 см парни в %s можно с разгона влетать", "crashed"},
+		{"1 метр если пойдет дождь будем прятаться в %s", "Shaquille O'Neal"},
 	}
 
 	rand.Seed(time.Now().UnixNano())
@@ -27,7 +27,7 @@ func Random_deep_pusse() string {
 	return deep[rand.Intn(len(deep))]
 }
 
-func Serch_gif() (string, error) {
+func Serch_gif(gifName string) (string, error) {
 	err := godotenv.Load()
 	var giphyKey string
 
@@ -45,9 +45,9 @@ func Serch_gif() (string, error) {
 
 	}
 
-	url := "https://api.giphy.com/v1/gifs/search?api_key=" + giphyKey + "&limit=1&q=punch"
+	u := "https://api.giphy.com/v1/gifs/search?api_key=" + giphyKey + "&limit=1&q=" + gifName
 
-	resp, err := http.Get(url)
+	resp, err := http.Get(u)
 	if err != nil {
 		fmt.Println(err)
 		return "", err
@@ -60,13 +60,23 @@ func Serch_gif() (string, error) {
 		fmt.Println(err)
 		return "", err
 	}
-
-	// body, err := ioutil.ReadAll(resp.Body)
-	// if err != nil {
-	// 	fmt.Println(err)
-	// 	return
-	// }
 	gifLink := gr.Data[0].Images.Downsized.URL
 	return gifLink, err
+
+}
+
+func SendRequestTGapi(telegramkey string, ChatID int64, link string) {
+	u := fmt.Sprintf("https://api.telegram.org/bot%s/sendAnimation?chat_id=%d&animation=%s",
+		telegramkey,
+		ChatID,
+		link,
+	)
+	resp, err := http.Get(u)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	defer resp.Body.Close()
 
 }

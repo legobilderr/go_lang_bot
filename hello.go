@@ -16,6 +16,9 @@ func MainHandler(resp http.ResponseWriter, _ *http.Request) {
 	resp.Write([]byte("Hi there! I'm DndSpellsBot!"))
 }
 
+type app struct {
+}
+
 func main() {
 
 	err := godotenv.Load()
@@ -70,26 +73,14 @@ func main() {
 				break
 
 			case "puss_deep":
-				var link string
-				link, err := pussdeep.Serch_gif()
+				var pussiAnswer []string
+				pussiAnswer = pussdeep.Random_deep_pusse()
+				bot.Send(nice(update.Message.Chat.ID, fmt.Sprintf(pussiAnswer[0], user_name)))
+				link, err := pussdeep.Serch_gif(pussiAnswer[1])
 				if err != nil {
 					log.Panic(err)
 				}
-				// bot.Request()
-
-				bot.Send(nice(update.Message.Chat.ID, fmt.Sprintf(pussdeep.Random_deep_pusse(), user_name)))
-				u := fmt.Sprintf("https://api.telegram.org/bot%s/sendAnimation?chat_id=%d&animation=%s",
-					telegramkey,
-					update.Message.Chat.ID,
-					link,
-				)
-				resp, err := http.Get(u)
-				if err != nil {
-					fmt.Println(err)
-					return
-				}
-
-				defer resp.Body.Close()
+				pussdeep.SendRequestTGapi(telegramkey, update.Message.Chat.ID, link)
 
 			default:
 				reply := "Я НЕ ПОНИМАЮ ЧТО ПРОИСХОДИТ !"
