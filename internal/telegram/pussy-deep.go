@@ -1,4 +1,4 @@
-package pussdeep
+package telegram
 
 import (
 	"encoding/json"
@@ -7,11 +7,11 @@ import (
 	"math/rand"
 	"net/http"
 	"os"
-	"test/model"
 	"time"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 	"github.com/joho/godotenv"
+	"test/internal/model"
 )
 
 func NewPuss(bot *tgbotapi.BotAPI, ChatId int64, usernane string, telegramkey string) {

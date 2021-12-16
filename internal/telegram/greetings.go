@@ -1,11 +1,12 @@
-package greetings
+package telegram
 
 import (
+	"fmt"
 	"math/rand"
 	"time"
 )
 
-func RandomFormat() string {
+func RandomGreetings(name string) string {
 	// A slice of message formats.
 	formats := []string{
 		"Hi, %s. Welcome!",
@@ -16,5 +17,5 @@ func RandomFormat() string {
 
 	// Return a randomly selected message format by specifying
 	// a random index for the slice of formats.
-	return formats[rand.Intn(len(formats))]
+	return fmt.Sprintf(formats[rand.Intn(len(formats))], name)
 }
