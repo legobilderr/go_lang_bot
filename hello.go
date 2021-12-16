@@ -5,7 +5,6 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"strconv"
 	"test/greetings"
 	"test/pussdeep"
 
@@ -76,10 +75,15 @@ func main() {
 				if err != nil {
 					log.Panic(err)
 				}
+				// bot.Request()
 
 				bot.Send(nice(update.Message.Chat.ID, fmt.Sprintf(pussdeep.Random_deep_pusse(), user_name)))
-				url := "https://api.telegram.org/bot" + telegramkey + "/sendAnimation?chat_id=" + strconv.FormatInt(update.Message.Chat.ID, 10) + "&animation=" + link
-				resp, err := http.Get(url)
+				u := fmt.Sprintf("https://api.telegram.org/bot%s/sendAnimation?chat_id=%d&animation=%s",
+					telegramkey,
+					update.Message.Chat.ID,
+					link,
+				)
+				resp, err := http.Get(u)
 				if err != nil {
 					fmt.Println(err)
 					return
