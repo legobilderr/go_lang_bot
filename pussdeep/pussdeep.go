@@ -17,9 +17,9 @@ func Random_deep_pusse() []string {
 
 	deep := [][]string{
 		{"2 см %s ублажает пусей муравья ", "tiny "},
-		{"10 см %s ну чтож один раз не педафил , снимай трусишки", "take your pants of"},
+		{"10 см %s ну чтож один раз не педафил , снимай трусишки", "take_your_pants_of"},
 		{"19 см парни в %s можно с разгона влетать", "crashed"},
-		{"1 метр если пойдет дождь будем прятаться в %s", "Shaquille O'Neal"},
+		{"1 метр если пойдет дождь будем прятаться в %s", "Shaquille_O'Neal"},
 	}
 
 	rand.Seed(time.Now().UnixNano())
