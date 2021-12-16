@@ -20,7 +20,23 @@ type app struct {
 }
 
 func main() {
+	var telegramkey string = env_load()
 
+	bot, err := tgbotapi.NewBotAPI(telegramkey)
+	if err != nil {
+		log.Panic(err)
+	}
+
+	bot.Debug = true
+
+	log.Printf("Authorized on account %s", bot.Self.UserName)
+
+	updates := bot.ListenForWebhook("/" + bot.Token)
+	komandSwither(updates, bot)
+
+}
+
+func env_load() string {
 	err := godotenv.Load()
 	var telegramkey string
 
@@ -40,18 +56,10 @@ func main() {
 		telegramkey = myEnv["TELEAGRAMBOT_KEY"]
 
 	}
+	return telegramkey
+}
 
-	bot, err := tgbotapi.NewBotAPI(telegramkey)
-	if err != nil {
-		log.Panic(err)
-	}
-
-	bot.Debug = true
-
-	log.Printf("Authorized on account %s", bot.Self.UserName)
-
-	updates := bot.ListenForWebhook("/" + bot.Token)
-
+func komandSwither(updates tgbotapi.UpdatesChannel, bot *tgbotapi.BotAPI) {
 	for update := range updates {
 
 		user_name := update.Message.From.UserName
@@ -63,24 +71,18 @@ func main() {
 
 			case "good_mornig_radnyli":
 
-				bot.Send(nice(update.Message.Chat.ID, fmt.Sprintf(greetings.RandomFormat(), user_name)))
+				bot.Send(pussdeep.Nice(update.Message.Chat.ID, fmt.Sprintf(greetings.RandomFormat(), user_name)))
 
 			case "good_morning_pidarasi":
 
 				reply := "ДОБРОЕ УТРО ГЕЁЧКИ!"
 
-				bot.Send(nice(update.Message.Chat.ID, reply))
+				bot.Send(pussdeep.Nice(update.Message.Chat.ID, reply))
 				break
 
 			case "puss_deep":
-				var pussiAnswer []string
-				pussiAnswer = pussdeep.Random_deep_pusse()
-				bot.Send(nice(update.Message.Chat.ID, fmt.Sprintf(pussiAnswer[0], user_name)))
-				link, err := pussdeep.Serch_gif(pussiAnswer[1])
-				if err != nil {
-					log.Panic(err)
-				}
-				pussdeep.SendRequestTGapi(telegramkey, update.Message.Chat.ID, link)
+
+				pussdeep.NewPuss(bot, update.Message.Chat.ID, user_name, telegramkey)
 
 			default:
 				reply := "Я НЕ ПОНИМАЮ ЧТО ПРОИСХОДИТ !"
@@ -90,8 +92,4 @@ func main() {
 			}
 		}
 	}
-}
-
-func nice(id int64, message string) tgbotapi.MessageConfig {
-	return tgbotapi.NewMessage(id, message)
 }
