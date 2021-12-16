@@ -9,8 +9,9 @@ import (
 )
 
 type Config struct {
-	TelegramApiKey string `envconfig:"TELEAGRAMBOT_KEY" default:"type here default value"`
 	Port           string `envconfig:"PORT" default:"5000"`
+	TelegramApiKey string `envconfig:"TELEAGRAMBOT_KEY" default:""`
+	GiphiKey       string `envconfig:"GIPHY_KEY" default:""`
 }
 
 // GetConfig - создаёт конфиг на основе переменных окружения  префиксом WORKERBOT_ и docker secrets.

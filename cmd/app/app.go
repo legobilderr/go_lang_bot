@@ -7,10 +7,11 @@ import (
 	"net/http"
 	"sync"
 
-	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
-	"go.uber.org/zap"
 	"test/internal/config"
 	zapLogger "test/internal/pkg/logger"
+
+	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
+	"go.uber.org/zap"
 )
 
 // App - основная структура (модель данных) приложения
@@ -49,6 +50,7 @@ func NewApp(ctx context.Context, config *config.Config) (a *App, err error) {
 		a.logger.Error("couldn't connect to bot api", zap.Error(err))
 		return nil, err
 	}
+	a.logger.Info("Connected", zap.String("name", a.bot.Self.UserName))
 
 	a.muxInit()
 	return
