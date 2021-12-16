@@ -17,6 +17,9 @@ func MainHandler(resp http.ResponseWriter, _ *http.Request) {
 }
 
 type app struct {
+	main(),
+	env_load(),
+	komandSwitcher()
 }
 
 func main() {
@@ -33,7 +36,6 @@ func main() {
 
 	updates := bot.ListenForWebhook("/" + bot.Token)
 	komandSwither(updates, bot, telegramkey)
-
 }
 
 func env_load() string {
