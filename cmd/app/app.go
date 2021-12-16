@@ -52,16 +52,17 @@ func NewApp(ctx context.Context, config *config.Config) (a *App, err error) {
 	}
 	a.logger.Info("Connected", zap.String("name", a.bot.Self.UserName))
 
-	a.muxInit()
 	return
 }
 
 // Run - запускает приложение
 func (a *App) Run(ctx context.Context) error {
 	a.wg.Add(1)
+	a.muxInit()
+	updates := a.bot.ListenForWebhook("/" + a.bot.Token)
 
 	go func(ctx context.Context) {
-		a.runTelegramPipeline()
+		a.runTelegramPipeline(updates)
 		defer a.wg.Done()
 	}(ctx)
 
@@ -70,14 +71,14 @@ func (a *App) Run(ctx context.Context) error {
 
 // muxInit - инициализирует роутинг при http запросах
 func (a *App) muxInit() {
-	a.mux.HandleFunc("/", func(writer http.ResponseWriter, request *http.Request) {
+	http.HandleFunc("/", func(writer http.ResponseWriter, request *http.Request) {
 		_, err := writer.Write([]byte("works"))
 		if err != nil {
 			return
 		}
 	})
 
-	a.mux.HandleFunc("/bot/get-users", func(writer http.ResponseWriter, request *http.Request) {
+	http.HandleFunc("/bot/get-users", func(writer http.ResponseWriter, request *http.Request) {
 		me, err := a.bot.GetMe()
 		if err != nil {
 			return

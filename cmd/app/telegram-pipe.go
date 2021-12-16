@@ -6,9 +6,8 @@ import (
 	"test/internal/telegram"
 )
 
-func (a *App) runTelegramPipeline() {
+func (a *App) runTelegramPipeline(updates tgbotapi.UpdatesChannel) {
 	a.bot.Debug = true
-	updates := a.bot.ListenForWebhook("/" + a.bot.Token)
 	a.logger.Info("started telegram pipeline")
 
 	for update := range updates {
