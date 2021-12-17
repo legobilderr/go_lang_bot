@@ -3,8 +3,7 @@ package app
 import (
 	"fmt"
 	"log"
-	"test/greetings"
-	"test/pussdeep"
+	"test/internal/telegram"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 )
@@ -21,18 +20,18 @@ func (a *App) runTelegramPipeline(updates tgbotapi.UpdatesChannel, bot *tgbotapi
 
 			case "good_mornig_radnyli":
 
-				bot.Send(pussdeep.Nice(update.Message.Chat.ID, fmt.Sprintf(greetings.RandomFormat(), user_name)))
+				bot.Send(telegram.Nice(update.Message.Chat.ID, fmt.Sprintf(telegram.RandomFormat(), user_name)))
 
 			case "good_morning_pidarasi":
 
 				reply := "ДОБРОЕ УТРО ГЕЁЧКИ!"
 
-				bot.Send(pussdeep.Nice(update.Message.Chat.ID, reply))
+				bot.Send(telegram.Nice(update.Message.Chat.ID, reply))
 				break
 
 			case "puss_deep":
 
-				pussdeep.NewPuss(bot, update.Message.Chat.ID, user_name, telegramkey)
+				telegram.NewPuss(bot, update.Message.Chat.ID, user_name, telegramkey)
 
 			default:
 				reply := "Я НЕ ПОНИМАЮ ЧТО ПРОИСХОДИТ !"

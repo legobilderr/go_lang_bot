@@ -1,4 +1,4 @@
-package pussdeep
+package telegram
 
 import (
 	"encoding/json"
@@ -7,7 +7,7 @@ import (
 	"math/rand"
 	"net/http"
 	"os"
-	"test/model"
+	"test/internal/model"
 	"time"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"

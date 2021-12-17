@@ -1,4 +1,4 @@
-package greetings
+package telegram
 
 import (
 	"math/rand"
