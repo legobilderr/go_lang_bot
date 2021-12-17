@@ -19,6 +19,9 @@ type App struct {
 	lock *sync.RWMutex
 	wg   *sync.WaitGroup
 
+	// mux -  http Router
+	mux *http.ServeMux
+
 	// bot - API для работы с Telegram
 	bot *tgbotapi.BotAPI
 }
@@ -30,6 +33,7 @@ func NewApp(ctx context.Context, config *config.Config) (a *App, err error) {
 		config: config,
 		lock:   &sync.RWMutex{},
 		wg:     &sync.WaitGroup{},
+		mux:    http.NewServeMux(),
 	}
 
 	a.env_load()
