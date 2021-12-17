@@ -3,7 +3,9 @@ package app
 import (
 	"context"
 	"log"
+	"net/http"
 	"sync"
+	"test/internal/config"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 )
@@ -11,7 +13,8 @@ import (
 // App - основная структура (модель данных) приложения
 type App struct {
 	ctx context.Context
-
+	// config - Конфиг приложения с env переменными
+	config *config.Config
 	// lock & mutex примитивы синхронизации в мультипоточных приложениях
 	lock *sync.RWMutex
 	wg   *sync.WaitGroup
@@ -21,14 +24,17 @@ type App struct {
 }
 
 // NewApp - конструктор основной структуры
-func NewApp(ctx context.Context, tekegramKey string) (a *App, err error) {
+func NewApp(ctx context.Context, config *config.Config) (a *App, err error) {
 	a = &App{
-		ctx:  ctx,
-		lock: &sync.RWMutex{},
-		wg:   &sync.WaitGroup{},
+		ctx:    ctx,
+		config: config,
+		lock:   &sync.RWMutex{},
+		wg:     &sync.WaitGroup{},
 	}
 
-	if a.bot, err = tgbotapi.NewBotAPI(tekegramKey); err != nil {
+	a.env_load()
+
+	if a.bot, err = tgbotapi.NewBotAPI(config.TelegramApiKey); err != nil {
 		log.Printf("couldn't connect to bot api")
 		return nil, err
 	}
@@ -39,9 +45,18 @@ func NewApp(ctx context.Context, tekegramKey string) (a *App, err error) {
 }
 
 // Run - запускает приложение
-func (a *App) Run(ctx context.Context, tekegramKey string) {
+func (a *App) Run(ctx context.Context) {
 	updates := a.bot.ListenForWebhook("/" + a.bot.Token)
-	a.runTelegramPipeline(updates, a.bot, tekegramKey)
+	a.runTelegramPipeline(updates, a.bot, a.config.TelegramApiKey)
+}
+
+func (a *App) env_load() {
+	http.HandleFunc("/", MainHandler)
+	go http.ListenAndServe(":"+a.config.Port, nil)
+
+}
+func MainHandler(resp http.ResponseWriter, _ *http.Request) {
+	resp.Write([]byte("Hi there! I'm DndSpellsBot!"))
 }
 
 // muxInit - инициализирует роутинг при http запросах
